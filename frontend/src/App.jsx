@@ -1,0 +1,51 @@
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import { AuthProvider } from './contexts/AuthContext';
+import ProtectedRoute from './components/ProtectedRoute';
+import Navbar from './components/Navbar';
+import LoginPage from './pages/LoginPage';
+import CalendarPage from './pages/CalendarPage';
+import DashboardPage from './pages/DashboardPage';
+import AdminPage from './pages/AdminPage';
+import AnalyticsPage from './pages/AnalyticsPage';
+
+function Layout({ children, fullHeight }) {
+  return (
+    <div className={fullHeight ? 'h-screen flex flex-col overflow-hidden' : 'min-h-screen bg-gray-50'}>
+      <Navbar />
+      <main className={fullHeight ? 'flex-1 overflow-hidden' : ''}>{children}</main>
+    </div>
+  );
+}
+
+export default function App() {
+  return (
+    <BrowserRouter>
+      <AuthProvider>
+        <Routes>
+          <Route path="/login" element={<LoginPage />} />
+          <Route path="/" element={
+            <ProtectedRoute>
+              <Layout fullHeight><CalendarPage /></Layout>
+            </ProtectedRoute>
+          } />
+          <Route path="/dashboard" element={
+            <ProtectedRoute adminOnly>
+              <Layout><DashboardPage /></Layout>
+            </ProtectedRoute>
+          } />
+          <Route path="/admin" element={
+            <ProtectedRoute adminOnly>
+              <Layout><AdminPage /></Layout>
+            </ProtectedRoute>
+          } />
+          <Route path="/analytics" element={
+            <ProtectedRoute adminOnly>
+              <Layout><AnalyticsPage /></Layout>
+            </ProtectedRoute>
+          } />
+          <Route path="*" element={<Navigate to="/" replace />} />
+        </Routes>
+      </AuthProvider>
+    </BrowserRouter>
+  );
+}
