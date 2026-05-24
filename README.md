@@ -12,8 +12,8 @@ Hệ thống đặt phòng họp nội bộ GHN.
 ### 1. Clone repo
 
 ```bash
-git clone https://github.com/<username>/<repo-name>.git
-cd <repo-name>
+git clone https://github.com/tilo2402/ghn_booking_meeting.git
+cd ghn_booking_meeting
 ```
 
 ### 2. Cài Backend
